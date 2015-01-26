@@ -10,7 +10,7 @@ namespace MetalPriceTallier {
 	using namespace System::Drawing;
 
 	/// <summary>
-	/// FormMain の概要
+	/// FormMain
 	/// </summary>
 	public ref class FormMain : public System::Windows::Forms::Form
 	{
@@ -21,7 +21,7 @@ namespace MetalPriceTallier {
 			define = gcnew Define();
 			check = gcnew CheckInput();
 			InitInput();
-			//init objects
+			//Init objects
 			lbBankin->SelectedIndex = 0;
 			bResist->Enabled = false;
 			bExcelExport->Enabled = false;
@@ -37,10 +37,12 @@ namespace MetalPriceTallier {
 			}
 		}
 	private:
-		//internal classes
+		//Internal classes
 		Define^ define;
 		CheckInput^ check;
-		//objects on Form
+
+		#pragma region Form Objects
+
 		System::Windows::Forms::ListBox^  lbBankin;
 		System::Windows::Forms::GroupBox^  gbInput;
 		System::Windows::Forms::PictureBox^  pbBox;
@@ -82,14 +84,18 @@ namespace MetalPriceTallier {
 		System::Windows::Forms::TextBox^  tbColorEdit;
 		System::Windows::Forms::Label^  lHM;
 		System::Windows::Forms::Label^  lDM;
-		System::Windows::Forms::Label^  lWM;	
+		System::Windows::Forms::Label^  lWM;
+
+		#pragma endregion
+
 	private: System::Windows::Forms::Button^  bDelete;
-			 /// <summary>
+		/// <summary>
 		/// 必要なデザイナー変数です。
 		/// </summary>
 		System::ComponentModel::Container ^components;
 
-#pragma region Windows Form Designer generated code
+		#pragma region Form Designer generated code
+
 		/// <summary>
 		/// デザイナー サポートに必要なメソッドです。このメソッドの内容を
 		/// コード エディターで変更しないでください。
@@ -654,8 +660,11 @@ namespace MetalPriceTallier {
 			this->PerformLayout();
 
 		}
-#pragma endregion
-		//button click
+
+		#pragma endregion
+
+		#pragma region Button click events
+
 		System::Void bExcelExport_Click(System::Object^  sender, System::EventArgs^  e)
 		{
 			//Call C# com object
@@ -696,7 +705,7 @@ namespace MetalPriceTallier {
 					if (lbBankin->SelectedIndex != i) {
 						items[i] = lbBankin->Items[i]->ToString();
 					} else {
-						//clear selected item
+						//Clear selected item
 						items[i] = Convert::ToString(i + 1) + ")";
 					}
 				}
@@ -708,7 +717,11 @@ namespace MetalPriceTallier {
 				SetTotalPrice();
 			}
 		}
-		//value changed
+
+		#pragma endregion
+
+		#pragma region Value changed events
+
 		System::Void cbQuantity_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e)
 		{
 			is_edit = true;
@@ -824,7 +837,7 @@ namespace MetalPriceTallier {
 					cbQuantity->Text = phrazes[1]->Substring(phrazes[1]->IndexOf(':') + 1);
 					cbType->Text = phrazes[2]->Substring(phrazes[2]->IndexOf(':') + 1);
 					cbKadai->Checked = (phrazes[3] == "架台"? true: false);
-					//架台、盤名				
+					//Type and Kadai		
 					array<System::String^> ^sizes = phrazes[4]->Split('x');
 					tbW->Text = sizes[0];
 					tbH->Text = sizes[1];
@@ -841,7 +854,11 @@ namespace MetalPriceTallier {
 				pre_index = lbBankin->SelectedIndex;
 			}
 		}
-		//private Methods
+
+		#pragma endregion
+
+		#pragma region Private Methods
+
 		bool CheckNumeric(String^ input) {
 			bool is_check_ok = false;
 			if (input != "") {
@@ -1020,8 +1037,16 @@ namespace MetalPriceTallier {
 			}
 			return Convert::ToString(total);
 		}
+
+		#pragma endregion
+
+		#pragma region Properties
+
 		property bool is_edit;
 		property int pre_index;
+
+		#pragma endregion
+
 	};
 }
 
